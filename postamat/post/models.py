@@ -10,3 +10,8 @@ class Post(models.Model):
     read_access = models.ManyToManyField(User, related_name='readable_posts')
     write_access = models.ManyToManyField(User, related_name='writeable_posts')
     public = models.BooleanField(default=True) # whether this post is visible to everyone
+    creation_date = models.DateTimeField(auto_created=True)
+
+
+    def __str__(self):
+        return self.title
