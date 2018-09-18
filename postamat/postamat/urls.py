@@ -19,7 +19,7 @@ from rest_framework import routers
 from post.serializers import PublicFeedViewSet
 
 router = routers.SimpleRouter()
-router.register(r'posts/public', PublicFeedViewSet)
+router.register(r'api/posts/public', PublicFeedViewSet)
 urlpatterns = router.urls
 
 urlpatterns += [
