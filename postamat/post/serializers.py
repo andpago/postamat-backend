@@ -4,7 +4,7 @@ from .models import Post
 class FullPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('title', 'author', 'text', 'creation_date')
+        fields = ('title', 'author', 'text', 'creation_date', 'id')
 
 
 class PublicFeedViewSet(viewsets.ReadOnlyModelViewSet):
