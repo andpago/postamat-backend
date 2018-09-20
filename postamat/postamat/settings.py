@@ -11,9 +11,15 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import configparser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+config = configparser.ConfigParser()
+config.read(os.path.join(BASE_DIR, '../config.conf'))
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -127,3 +133,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 20
 }
+
+
+HOST = config['location']['host']
+MEDIA_URL = f'http://{HOST}/media/'
+MEDIA_ROOT = config['location']['media_root']
