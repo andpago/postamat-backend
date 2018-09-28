@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from rest_framework import routers
 from post.serializers import PublicFeedViewSet
+from rest_framework.authtoken import views
 
 router = routers.SimpleRouter()
 router.register(r'api/posts/public', PublicFeedViewSet)
@@ -25,4 +26,8 @@ urlpatterns = router.urls
 urlpatterns += [
     path('admin/', admin.site.urls),
     re_path(r'^api-auth/', include('rest_framework.urls')),
+]
+
+urlpatterns += [
+    re_path(r'^api/api-token-auth/', views.obtain_auth_token)
 ]
