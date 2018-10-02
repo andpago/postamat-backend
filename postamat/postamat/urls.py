@@ -19,8 +19,11 @@ from rest_framework import routers
 from post.serializers import PublicFeedViewSet
 from rest_framework.authtoken import views
 
+from core.serializers import UserViewSet
+
 router = routers.SimpleRouter()
 router.register(r'api/posts/public', PublicFeedViewSet)
+router.register(r'api/users', UserViewSet)
 urlpatterns = router.urls
 
 urlpatterns += [
