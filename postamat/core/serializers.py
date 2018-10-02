@@ -1,9 +1,10 @@
 from django.db import IntegrityError
 from django.http.response import HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
+from postamat.settings import MEDIA_ROOT
 from rest_framework import serializers, viewsets
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
 
-from postamat.settings import MEDIA_ROOT
 from .models import User
 
 
@@ -18,6 +19,27 @@ class UserSerializer(serializers.ModelSerializer):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    @action(methods=['POST'], url_path='self', url_name='self', detail=False)
+    def get_self_info(self, request):
+        tk = request.data.get('token', None)
+
+        try:
+            user = Token.objects.get(key=tk).user
+        except Token.DoesNotExist:
+            return JsonResponse({
+                "error": "no user with this token"
+            })
+
+        try:
+            avatarUrl = user.avatar.url
+        except ValueError:
+            avatarUrl = None
+
+        return JsonResponse({"user": {
+            "username": user.username,
+            "avatar": avatarUrl,
+        }})
 
     @action(methods=['POST'], url_path='registration', url_name='registration', detail=False)
     def registration(self, request):
